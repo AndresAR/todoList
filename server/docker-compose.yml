@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+    webapp-server:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      image: todo-server-img
+      container_name: todo-node-express
+      volumes:
+       - .:/usr/src/app
+      ports:
+        - "8080:8080"
+      depends_on:
+        - todo-mongodb
+      env_file: .env
+      environment:
+        - MONGO_HOSTNAME=$MONGO_HOSTNAME
+        - MONGO_PORT=$MONGO_PORT
+        - MONGO_DB=$MONGO_DB
+    todo-mongodb:
+      image: mongo
+      container_name: todo-mongodb
+      ports:
+        - "27017:27017"
